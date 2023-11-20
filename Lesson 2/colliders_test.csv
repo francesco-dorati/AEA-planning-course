@@ -1,0 +1,5 @@
+lat0 37.792480, lon0 -122.397450
+posX,posY,posZ,halfSizeX,halfSizeY,halfSizeZ
+1,1,0, 0.5,0.5,50
+3,3,0, 1,1,50
+7,7,0, 1,1,50
