@@ -1,6 +1,5 @@
 import numpy as np
 
-
 class CollidersGrid:
     def __init__(self, filename, safety_distance=3, drone_altitude=5):
         data = np.loadtxt(filename, delimiter=',', dtype='float64', skiprows=2)
@@ -27,7 +26,7 @@ class CollidersGrid:
                 east_end = int(east + d_east + safety_distance - east_min)
 
                 grid[north_start:north_end, east_start:east_end] = 1
-                points.append([north - north_min, east - east_min])
+                points.append((north - north_min, east - east_min))
 
         self.grid = grid
         self.points = points
