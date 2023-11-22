@@ -19,7 +19,7 @@ class Visuals:
         x, y = point
         plt.plot(y, x, color)
     
-    def add_path(self, path, color):
+    def add_path(self, path, color='r'):
         pp = np.array(path)
         plt.plot(pp[:, 1], pp[:, 0], color)
     
