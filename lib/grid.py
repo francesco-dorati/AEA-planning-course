@@ -9,7 +9,8 @@ def colliders_grid(filename, safety_distance=3, drone_altitude=5):
         drone_altitude (int): static drone altitude
 
     Returns:
-        matrix: NxN grid with 1 as obstacles and 0 as free space
+        grid: NxN grid with 1 as obstacles and 0 as free space
+        points: (list of tuples) all points of obstacle
     """
     
     data = np.loadtxt(filename, delimiter=',', dtype='float64', skiprows=2)
@@ -23,6 +24,7 @@ def colliders_grid(filename, safety_distance=3, drone_altitude=5):
     east_size = int(np.ceil((east_max - east_min)))
 
     grid = np.zeros((north_size, east_size))
+    points = []
 
     for obstacle_idx in range(data.shape[0]):
         north, east, alt, d_north, d_east, d_alt = data[obstacle_idx, :]
@@ -35,5 +37,6 @@ def colliders_grid(filename, safety_distance=3, drone_altitude=5):
             east_end = int(east + d_east + safety_distance - east_min)
 
             grid[north_start:north_end, east_start:east_end] = 1
+            points.append([north - north_min, east - east_min])
 
-    return grid
+    return grid, points

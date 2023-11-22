@@ -15,9 +15,9 @@ class Visuals:
             plt.imshow(grid, cmap='Greys', origin='lower', alpha=0.7)
 
     
-    def add_point(self, point: tuple):
+    def add_point(self, point: tuple, color='x'):
         x, y = point
-        plt.plot(y, x, 'x')
+        plt.plot(y, x, color)
     
     def add_path(self, path, color):
         pp = np.array(path)
