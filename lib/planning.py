@@ -2,7 +2,7 @@ import numpy as np
 from enum import Enum
 from queue import PriorityQueue
 
-def find_path(grid, start, goal):
+def astar_grid(grid, start, goal):
     """Find shortest path from start to end with A* algorithm
 
     Args:
@@ -101,7 +101,7 @@ def find_path(grid, start, goal):
                 branch[new_pos] = (pos, action, new_cost)
 
 
-
+    # traverse back
     path = []
     curr = goal
 
@@ -110,4 +110,72 @@ def find_path(grid, start, goal):
         path.append(branch[curr][0])
         curr = branch[curr][0]
         
+    path = path[::-1]
+
     return path, branch[goal][2]
+
+
+def astar_graph(edges, start, goal):
+    # start and goal are nodes
+
+    def dist(p1, p2):
+        return np.sqrt(abs(p2[0]-p1[0])**2 + abs(p2[1]-p1[1])**2)
+    
+    def connected_nodes(curr):
+        nodes = []
+        for e in edges:
+            if e[0] == curr:
+                nodes.append(e[1])
+            elif e[1] == curr:
+                nodes.append(e[0])
+        return nodes
+    
+    q = PriorityQueue()
+    q.put((dist(start, goal), 0, start))
+
+    visited = set()
+    visited.add(start)
+
+    branch = {}
+
+    found = False
+
+    while True:
+        curr = q.get()
+        cost = curr[1]
+        pos = curr[2]
+
+        if pos == goal:
+            found = True
+            break
+        
+        if q.empty():
+            break
+        
+        if not connected_nodes(pos):
+            continue
+        
+
+        for next_node in connected_nodes(pos):
+            traversing_cost = dist(curr, next_node)
+            new_cost = traversing_cost + cost
+            new_dist = dist(next_node, goal)
+
+            if next_node not in visited:
+                q.put((new_dist + new_cost, new_cost, next_node))
+                visited.add(next_node)
+                branch[next_node] = (pos, new_cost)
+
+            elif next_node in branch and branch[next_node][1] > new_cost:
+                branch[next_node] = (pos, new_cost)
+
+    if found:
+        path = []
+        c = goal
+        while c != start:
+            path.append(c)
+            c = branch[c][0]
+        path.append(start)
+        path = path[::-1]
+        return path
+

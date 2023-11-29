@@ -6,7 +6,10 @@ def bresenham(p1, p2):
   x1, y1 = min([p1, p2])
   x2, y2 = max([p1, p2])
   
-  if x1 == x2:
+  if p1 == p2:
+    return [p1]
+  
+  elif x1 == x2:
     y = min([y2, y1])
     d = abs(y2 - y1)
     for i in range(d):
@@ -19,6 +22,7 @@ def bresenham(p1, p2):
     for i in range(d):
       cells.append((x+i, y1))
     return cells
+  
 
   m = (y2 - y1) / (x2 - x1)
 
@@ -30,10 +34,10 @@ def bresenham(p1, p2):
       fy = int(np.floor(y))
       d = int(np.floor(y+m)) - fy
 
+      cells.append((x, fy))
       if d > 0:
-        cells.append((x, fy))
         for i in range(1, d+1):
-            cells.append((x, fy+i)) if (fy+i <= y2) else None
+            cells.append((x, fy+i)) #if (fy+i <= y2) else None
 
       x += 1
       y += m
@@ -46,10 +50,10 @@ def bresenham(p1, p2):
       fy = int(np.ceil(y)) 
       d = abs(int(np.ceil(y+m)) - fy)
 
+      cells.append((x, fy))
       if d > 0:
-        cells.append((x, fy))
         for i in range(1, d+1):
-          cells.append((x, fy-i)) if (fy-i >= y2) else None
+          cells.append((x, fy-i)) #if (fy-i >= y2) else None
 
       x += 1
       y += m

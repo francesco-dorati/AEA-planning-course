@@ -6,6 +6,7 @@ class Visuals:
     def __init__(self):
         plt.rcParams['figure.figsize'] = 12, 12
         self.layers = 0
+        self.plt = plt
 
     def add_grid(self, grid):
         if self.layers == 0:
@@ -22,6 +23,8 @@ class Visuals:
     def add_path(self, path, color='r'):
         pp = np.array(path)
         plt.plot(pp[:, 1], pp[:, 0], color)
+
+    
     
     def show(self):
         plt.show()
